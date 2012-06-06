@@ -1,10 +1,10 @@
 #############################################################
 #
 # usb_modeswitch_data
-#
+# http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-data-20120531.tar.bz2
 #############################################################
 
-USB_MODESWITCH_DATA_VERSION = 20120120
+USB_MODESWITCH_DATA_VERSION = 20120531
 USB_MODESWITCH_DATA_SOURCE = usb-modeswitch-data-$(USB_MODESWITCH_DATA_VERSION).tar.bz2
 USB_MODESWITCH_DATA_SITE = http://www.draisberghof.de/usb_modeswitch
 USB_MODESWITCH_DATA_DEPENDENCIES = usb_modeswitch
