@@ -1,7 +1,6 @@
 ######################################################################
 #
 # Qt Embedded for Linux
-# http://www.qtsoftware.com/
 #
 # This makefile was originally composed by Thomas Lundquist <thomasez@zelow.no>
 # Later heavily modified by buildroot developers
@@ -12,9 +11,9 @@
 #
 ######################################################################
 
-QT_VERSION = 4.8.1
+QT_VERSION = 4.8.2
 QT_SOURCE  = qt-everywhere-opensource-src-$(QT_VERSION).tar.gz
-QT_SITE    = http://get.qt.nokia.com/qt/source
+QT_SITE    = http://releases.qt-project.org/qt4/source
 QT_DEPENDENCIES = host-pkg-config
 QT_INSTALL_STAGING = YES
 
@@ -488,7 +487,7 @@ define QT_CONFIGURE_CMDS
 		PKG_CONFIG_SYSROOT_DIR="$(STAGING_DIR)" \
 		PKG_CONFIG="$(PKG_CONFIG_HOST_BINARY)" \
 		PKG_CONFIG_PATH="$(STAGING_DIR)/usr/lib/pkgconfig:$(PKG_CONFIG_PATH)" \
-		MAKEFLAGS="$(MAKEFLAGS) -j$(BR2_JLEVEL)" ./configure \
+		MAKEFLAGS="$(MAKEFLAGS) -j$(PARALLEL_JOBS)" ./configure \
 		$(if $(VERBOSE),-verbose,-silent) \
 		-force-pkg-config \
 		$(QT_CONFIGURE_OPTS) \
