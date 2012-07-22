@@ -31,5 +31,5 @@ define USB_MODESWITCH_UNINSTALL_CMDS
 	$(RM) -f $(TARGET_DIR)/usr/sbin/usb_modeswitch_dispatcher
 endef
 
-$(eval $(call GENTARGETS))
+$(eval $(generic-package))
 

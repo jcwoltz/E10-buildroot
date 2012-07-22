@@ -26,6 +26,10 @@ uvpath="/mntv"			#Path to mount var/log for temporary storage
 sanity_checks () {
 
 [ -b /dev/sda1 ] || echo "Missing sda1" && exit 1
+[ -b /dev/md0 ] || echo "Missing md0" && exit 1
+[ -b /dev/md1 ] || echo "Missing md1" && exit 1
+[ -b /dev/md2 ] || echo "Missing md2" && exit 1
+[ -b /dev/md3 ] || echo "Missing md3" && exit 1
 [ -f "$umpath/$ukernel" ] || echo "Missing upgrade kernel" && exit 2
 [ -f "$umpath/$urootfs" ] || echo "Missing upgrade rootfs" && exit 3
 [ -f "$umpath/$urkernel" ] || echo "Missing Recovery Kernel" && exit 4
@@ -71,7 +75,7 @@ else
     echo "Good, mtd4 is already formatted"
     tar -cvf $uvpath/rootbkup.tar /oldroot/root/*
   else
-    /usr/sbin/flash_eraseall -q -j /dev/mtd4
+    /usr/sbin/flash_erase -q -j /dev/mtd4 0 0
     mount -t jffs2 /dev/mtdblock4 $uvpath
     tar -cvf $uvpath/rootbkup.tar /oldroot/root/*
   fi

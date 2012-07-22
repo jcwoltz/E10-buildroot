@@ -4,6 +4,8 @@
 #
 ###############################################################################
 LINUX_VERSION=$(call qstrip,$(BR2_LINUX_KERNEL_VERSION))
+LINUX_LICENSE = GPLv2
+LINUX_LICENSE_FILES = COPYING
 
 # Compute LINUX_SOURCE and LINUX_SITE from the configuration
 ifeq ($(LINUX_VERSION),custom)
@@ -211,7 +213,7 @@ endef
 
 include linux/linux-ext-*.mk
 
-$(eval $(call GENTARGETS))
+$(eval $(generic-package))
 
 ifeq ($(BR2_LINUX_KERNEL),y)
 linux-menuconfig linux-xconfig linux-gconfig linux-nconfig linux26-menuconfig linux26-xconfig linux26-gconfig linux26-nconfig: dirs linux-configure

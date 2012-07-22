@@ -17,5 +17,5 @@ ifeq ($(BR2_PACKAGE_ZLIB),y)
 PROTOBUF_DEPENDENCIES += zlib
 endif
 
-$(eval $(call AUTOTARGETS))
-$(eval $(call AUTOTARGETS,host))
+$(eval $(autotools-package))
+$(eval $(host-autotools-package))

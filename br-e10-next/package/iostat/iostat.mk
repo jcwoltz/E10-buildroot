@@ -6,6 +6,8 @@
 
 IOSTAT_VERSION = 2.2
 IOSTAT_SITE = http://www.linuxinsight.com/files
+IOSTAT_LICENSE = GPL
+IOSTAT_LICENSE_FILES = LICENSE
 
 iostat-source: $(DL_DIR)/$(IOSTAT_SOURCE)
 
@@ -28,4 +30,4 @@ define IOSTAT_UNINSTALL_TARGET_CMDS
 	rm -f $(TARGET_DIR)/usr/share/man/man8/iostat.8
 endef
 
-$(eval $(call GENTARGETS))
+$(eval $(generic-package))

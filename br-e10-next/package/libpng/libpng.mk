@@ -30,5 +30,5 @@ ifneq ($(BR2_HAVE_DEVFILES),y)
 LIBPNG_POST_INSTALL_TARGET_HOOKS += LIBPNG_REMOVE_CONFIG_SCRIPTS
 endif
 
-$(eval $(call AUTOTARGETS))
-$(eval $(call AUTOTARGETS,host))
+$(eval $(autotools-package))
+$(eval $(host-autotools-package))

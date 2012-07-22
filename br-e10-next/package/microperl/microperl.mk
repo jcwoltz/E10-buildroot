@@ -150,5 +150,5 @@ define MICROPERL_UNINSTALL_TARGET_CMDS
 	rm -rf $(TARGET_DIR)/usr/lib/perl5
 endef
 
-$(eval $(call GENTARGETS))
-$(eval $(call GENTARGETS,host))
+$(eval $(generic-package))
+$(eval $(host-generic-package))

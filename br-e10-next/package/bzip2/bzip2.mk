@@ -7,6 +7,8 @@
 BZIP2_VERSION = 1.0.6
 BZIP2_SITE = http://www.bzip.org/$(BZIP2_VERSION)
 BZIP2_INSTALL_STAGING = YES
+BZIP2_LICENSE = bzip2 license
+BZIP2_LICENSE_FILES = LICENSE
 
 define BZIP2_FIX_MAKEFILE
 	$(SED) "s,ln \$$(,ln -snf \$$(,g" $(@D)/Makefile
@@ -101,5 +103,5 @@ define HOST_BZIP2_INSTALL_CMDS
 	$(MAKE) PREFIX=$(HOST_DIR)/usr -C $(@D) install
 endef
 
-$(eval $(call GENTARGETS))
-$(eval $(call GENTARGETS,host))
+$(eval $(generic-package))
+$(eval $(host-generic-package))

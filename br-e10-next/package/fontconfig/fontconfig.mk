@@ -25,5 +25,5 @@ HOST_FONTCONFIG_CONF_OPT = \
 		--disable-docs \
 		--disable-static
 
-$(eval $(call AUTOTARGETS))
-$(eval $(call AUTOTARGETS,host))
+$(eval $(autotools-package))
+$(eval $(host-autotools-package))
