@@ -54,8 +54,8 @@ echo "======================================================================"
 if [ "wocs-m" == "$HOSTNAME" ]
 then
 	echo sending $FILENAMEN to hosting provider
-#	scp $uarchived/$FILENAMEN.zip $uarchived/$FILENAMES.zip iworryfo@jcwoltz.com:public_html/e10/
-	scp $uarchived/$FILENAMES.zip iworryfo@jcwoltz.com:public_html/e10/
+	scp $uarchived/$FILENAMEN.zip $uarchived/$FILENAMES.zip iworryfo@jcwoltz.com:public_html/e10/
+#	scp $uarchived/$FILENAMES.zip iworryfo@jcwoltz.com:public_html/e10/
 	echo "Done!"
 #	echo sending $FILENAMES to hosting provider
 #	scp $uarchived/$FILENAMES.zip iworryfo@jcwoltz.com:public_html/e10/
