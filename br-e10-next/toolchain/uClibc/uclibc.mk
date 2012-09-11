@@ -37,26 +37,12 @@ UCLIBC_TARGET_ARCH:=$(shell $(SHELL) -c "echo $(ARCH) | sed \
 		-e 's/v850.*/v850/g' \
 		-e 's/sh[234].*/sh/' \
 		-e 's/mips.*/mips/' \
-		-e 's/mipsel.*/mips/' \
 		-e 's/cris.*/cris/' \
 		-e 's/xtensa.*/xtensa/' \
 ")
-# just handle the ones that can be big or little
-UCLIBC_TARGET_ENDIAN:=$(shell $(SHELL) -c "echo $(ARCH) | sed \
-		-e 's/armeb/BIG/' \
-		-e 's/arm/LITTLE/' \
-		-e 's/mipsel/LITTLE/' \
-		-e 's/mips/BIG/' \
-		-e 's/sh.*eb/BIG/' \
-		-e 's/sh.*/LITTLE/' \
-		-e 's/sparc.*/BIG/' \
-")
 
-ifneq ($(UCLIBC_TARGET_ENDIAN),LITTLE)
-ifneq ($(UCLIBC_TARGET_ENDIAN),BIG)
-UCLIBC_TARGET_ENDIAN:=
-endif
-endif
+UCLIBC_TARGET_ENDIAN:=$(call qstrip,$(BR2_ENDIAN))
+
 ifeq ($(UCLIBC_TARGET_ENDIAN),LITTLE)
 UCLIBC_NOT_TARGET_ENDIAN:=BIG
 else
@@ -155,13 +141,13 @@ ifeq ($(UCLIBC_TARGET_ARCH),mips)
 	 /bin/echo "# CONFIG_MIPS_ISA_MIPS32R2 is not set"; \
 	 /bin/echo "# CONFIG_MIPS_ISA_MIPS64 is not set"; \
 	) >> $(UCLIBC_DIR)/.oldconfig
-ifeq ($(BR2_MIPS_OABI),y)
+ifeq ($(BR2_MIPS_OABI32),y)
 	$(SED) 's/.*\(CONFIG_MIPS_O32_ABI\).*/\1=y/' $(UCLIBC_DIR)/.oldconfig
 endif
-ifeq ($(BR2_MIPS_ABI32),y)
+ifeq ($(BR2_MIPS_NABI32),y)
 	$(SED) 's/.*\(CONFIG_MIPS_N32_ABI\).*/\1=y/' $(UCLIBC_DIR)/.oldconfig
 endif
-ifeq ($(BR2_MIPS_ABI64),y)
+ifeq ($(BR2_MIPS_NABI64),y)
 	$(SED) 's/.*\(CONFIG_MIPS_N64_ABI\).*/\1=y/' $(UCLIBC_DIR)/.oldconfig
 endif
 ifeq ($(BR2_mips_1),y)

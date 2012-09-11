@@ -34,11 +34,11 @@ define MIDORI_CONFIGURE_CMDS
 endef
 
 define MIDORI_BUILD_CMDS
-       (cd $(@D); ./waf build -j $(BR2_JLEVEL))
+       (cd $(@D); ./waf build -j $(PARALLEL_JOBS))
 endef
 
 define MIDORI_INSTALL_TARGET_CMDS
        (cd $(@D); ./waf --destdir=$(TARGET_DIR) install)
 endef
 
-$(eval $(call GENTARGETS))
+$(eval $(generic-package))

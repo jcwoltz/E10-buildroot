@@ -4,7 +4,7 @@
 #
 #######################################################
 
-CONNMAN_VERSION = 1.0
+CONNMAN_VERSION = 1.6
 CONNMAN_SITE = $(BR2_KERNEL_MIRROR)/linux/network/connman/
 CONNMAN_DEPENDENCIES = libglib2 dbus iptables gnutls
 CONNMAN_INSTALL_STAGING = YES
@@ -33,4 +33,4 @@ endef
 CONNMAN_POST_INSTALL_TARGET_HOOKS += CONNMAN_INSTALL_CM
 endif
 
-$(eval $(call AUTOTARGETS))
+$(eval $(autotools-package))

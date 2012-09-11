@@ -4,13 +4,15 @@
 #
 #############################################################
 
-USB_MODESWITCH_VERSION = 1.2.3
+USB_MODESWITCH_VERSION = 1.2.4
 USB_MODESWITCH_SOURCE = usb-modeswitch-$(USB_MODESWITCH_VERSION).tar.bz2
 USB_MODESWITCH_SITE = http://www.draisberghof.de/usb_modeswitch
 USB_MODESWITCH_DEPENDENCIES = libusb-compat
+USB_MODESWITCH_LICENSE = GPLv2+
+USB_MODESWITCH_LICENSE_FILES = COPYING
 
 define USB_MODESWITCH_BUILD_CMDS
-	$(TARGET_MAKE_ENV) $(MAKE) CC="$(TARGET_CC)" LD="$(TARGET_LD)" -C $(@D)
+	$(TARGET_MAKE_ENV) $(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)
 endef
 
 define USB_MODESWITCH_INSTALL_TARGET_CMDS
@@ -32,4 +34,3 @@ define USB_MODESWITCH_UNINSTALL_CMDS
 endef
 
 $(eval $(generic-package))
-

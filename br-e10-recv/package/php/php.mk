@@ -4,12 +4,14 @@
 #
 #############################################################
 
-PHP_VERSION = 5.3.13
+PHP_VERSION = 5.3.16
 PHP_SOURCE = php-$(PHP_VERSION).tar.bz2
 PHP_SITE = http://www.php.net/distributions
 PHP_INSTALL_STAGING = YES
 PHP_INSTALL_STAGING_OPT = INSTALL_ROOT=$(STAGING_DIR) install
 PHP_INSTALL_TARGET_OPT = INSTALL_ROOT=$(TARGET_DIR) install
+PHP_LICENSE = PHP
+PHP_LICENSE_FILES = LICENSE
 PHP_CONF_OPT =  --mandir=/usr/share/man \
 		--infodir=/usr/share/info \
 		--disable-all \
@@ -38,7 +40,6 @@ PHP_CONF_OPT += $(if $(BR2_PACKAGE_PHP_EXT_SOCKETS),--enable-sockets) \
 		$(if $(BR2_PACKAGE_PHP_EXT_DOM),--enable-dom) \
 		$(if $(BR2_PACKAGE_PHP_EXT_SIMPLEXML),--enable-simplexml) \
 		$(if $(BR2_PACKAGE_PHP_EXT_SOAP),--enable-soap) \
-		$(if $(BR2_PACKAGE_PHP_EXT_WDDX),--enable-wddx) \
 		$(if $(BR2_PACKAGE_PHP_EXT_XML),--enable-xml) \
 		$(if $(BR2_PACKAGE_PHP_EXT_XMLREADER),--enable-xmlreader) \
 		$(if $(BR2_PACKAGE_PHP_EXT_XMLWRITER),--enable-xmlwriter) \
@@ -66,6 +67,11 @@ endif
 ifeq ($(BR2_PACKAGE_PHP_EXT_LIBXML2),y)
 	PHP_CONF_OPT += --enable-libxml --with-libxml-dir=${STAGING_DIR}/usr
 	PHP_DEPENDENCIES += libxml2
+endif
+
+ifeq ($(BR2_PACKAGE_PHP_EXT_WDDX),y)
+	PHP_CONF_OPT += --enable-wddx --with-libexpat-dir=$(STAGING_DIR)/usr
+	PHP_DEPENDENCIES += expat
 endif
 
 ifeq ($(BR2_PACKAGE_PHP_EXT_XMLRPC),y)
@@ -225,4 +231,4 @@ endef
 
 PHP_CONF_ENV += CFLAGS="$(PHP_CFLAGS)"
 
-$(eval $(call AUTOTARGETS))
+$(eval $(autotools-package))

@@ -87,6 +87,7 @@ COLLECTD_CONF_OPT += --with-nan-emulation --with-fp-layout=nothing \
 
 COLLECTD_DEPENDENCIES = host-pkg-config \
 	$(if $(BR2_PACKAGE_COLLECTD_APACHE),libcurl) \
+	$(if $(BR2_PACKAGE_COLLECTD_BIND),libcurl libxml2) \
 	$(if $(BR2_PACKAGE_COLLECTD_CURL),libcurl) \
 	$(if $(BR2_PACKAGE_COLLECTD_CURL_JSON),libcurl yajl) \
 	$(if $(BR2_PACKAGE_COLLECTD_CURL_XML),libcurl libxml2) \
@@ -124,4 +125,4 @@ define COLLECTD_INSTALL_TARGET_CMDS
 	rm -f $(TARGET_DIR)/usr/share/collectd/postgresql_default.conf
 endef
 
-$(eval $(call AUTOTARGETS))
+$(eval $(autotools-package))

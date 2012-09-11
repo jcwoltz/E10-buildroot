@@ -21,4 +21,5 @@ define GPIO9260_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0755 $(@D)/gpio9260 $(TARGET_DIR)/usr/bin
 endef
 
-$(eval $(call GENTARGETS,package,gpio9260))
+#$(eval $(call GENTARGETS,package,gpio9260))
+$(eval $(gpio9260))

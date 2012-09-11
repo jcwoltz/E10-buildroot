@@ -4,8 +4,10 @@
 #
 #############################################################
 
-OPENSSL_VERSION = 1.0.0j
+OPENSSL_VERSION = 1.0.1c
 OPENSSL_SITE = http://www.openssl.org/source
+OPENSSL_LICENSE = OpenSSL or SSLeay
+OPENSSL_LICENSE_FILES = LICENSE
 OPENSSL_INSTALL_STAGING = YES
 OPENSSL_DEPENDENCIES = zlib
 OPENSSL_TARGET_ARCH = generic32
