@@ -1,3 +1,22 @@
+2012.11-rc2, Released November 30th, 2012:
+
+	Minor fixes around the tree.
+
+	Various manual updates and fixes.
+
+	Add checks for legacy features.
+
+	Updated/fixed packages: acpid, alsa-lib, arptables, binutils,
+	busybox, ccache, cjson, cramfs, directfb, flex, fluxbox, gdb,
+	hiawatha, igh-ethercat, imagemagick, imlib2, lcdproc,
+	libdaemon, libecore, libhid, libmad, libpcap, libsigc, libusb,
+	linux-fusion, matchbox, ocf-linux, owl-linux, python, rrdtool,
+	scons, strace, sylpheed
+
+	Issues resolved (http://bugs.uclibc.org):
+
+	#5732: Error : package/alsa-lib/alsa-lib.mk
+
 2012.11-rc1, Released November 17th, 2012
 
 	Fixes all over the tree and new features.

@@ -20,14 +20,15 @@ It takes the form of a line for each file, with the following layout:
 There are a few non-trivial blocks here:
 
 - +name+ is the path to the file you want to create/modify
-- +type+ is the type of the file, being one of :
+- +type+ is the type of the file, being one of:
   * f: a regular file
   * d: a directory
   * c: a character device file
   * b: a block device file
   * p: a named pipe
 - +mode+, +uid+ and +gid+ are the usual permissions settings
-- +major+ and +minor+ are here for device files
+- +major+ and +minor+ are here for device files - set to - for other
+  files
 - +start+, +inc+ and +count+ are for when you want to create a batch
   of files, and can be reduced to a loop, beginning at +start+,
   incrementing its counter by +inc+ until it reaches +count+

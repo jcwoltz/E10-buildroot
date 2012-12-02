@@ -25,9 +25,9 @@ gdb-unpacked: $(GDB_DIR)/.unpacked
 $(GDB_DIR)/.unpacked: $(DL_DIR)/$(GDB_SOURCE)
 	mkdir -p $(GDB_DIR)
 	$(GDB_CAT) $(DL_DIR)/$(GDB_SOURCE) | tar -C $(GDB_DIR) $(TAR_STRIP_COMPONENTS)=1 $(TAR_OPTIONS) -
-ifneq ($(call qstrip, $(BR2_xtensa_core_name)),)
-	tar xf $(BR2_xtensa_overlay_dir)/xtensa_$(call qstrip, \
-		$(BR2_xtensa_core_name)).tar -C $(@D) bfd include gdb
+ifneq ($(call qstrip, $(BR2_XTENSA_CORE_NAME)),)
+	tar xf $(BR2_XTENSA_OVERLAY_DIR)/xtensa_$(call qstrip, \
+		$(BR2_XTENSA_CORE_NAME)).tar -C $(@D) --strip-components=1 gdb
 endif
 ifneq ($(wildcard $(GDB_PATCH_DIR)),)
 	support/scripts/apply-patches.sh $(GDB_DIR) $(GDB_PATCH_DIR) \*.patch
@@ -196,6 +196,7 @@ $(GDB_HOST_DIR)/.configured: $(GDB_DIR)/.unpacked
 
 $(GDB_HOST_DIR)/gdb/gdb: $(GDB_HOST_DIR)/.configured
 	# force ELF support since it fails due to BFD linking problems
+	$(HOST_MAKE_ENV) \
 	gdb_cv_var_elf=yes \
 	$(MAKE) -C $(GDB_HOST_DIR)
 	strip $(GDB_HOST_DIR)/gdb/gdb
