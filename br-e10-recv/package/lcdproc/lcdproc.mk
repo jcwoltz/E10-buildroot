@@ -3,7 +3,7 @@
 # lcdproc
 #
 #############################################################
-LCDPROC_VERSION = 0.5.5
+LCDPROC_VERSION = 0.5.6
 LCDPROC_SOURCE = lcdproc-$(LCDPROC_VERSION).tar.gz
 LCDPROC_SITE = http://downloads.sourceforge.net/project/lcdproc/lcdproc/$(LCDPROC_VERSION)
 LCDPROC_LICENSE = GPLv2+
@@ -12,6 +12,10 @@ LCDPROC_MAKE = $(MAKE1)
 
 LCDPROC_CONF_OPT = --enable-drivers=$(BR2_PACKAGE_LCDPROC_DRIVERS)
 
-LCDPROC_DEPENDENCIES = ncurses
+ifeq ($(BR2_PACKAGE_LCDPROC_MENUS),y)
+LCDPROC_CONF_OPT += --enable-lcdproc-menus
+endif
+
+LCDPROC_DEPENDENCIES = freetype ncurses zlib
 
 $(eval $(autotools-package))

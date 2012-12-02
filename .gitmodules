@@ -1,0 +1,3 @@
+[submodule "br-trunk"]
+	path = br-trunk
+	url = git://git.buildroot.net/buildroot

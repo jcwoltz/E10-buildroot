@@ -4,7 +4,7 @@
 #
 #############################################################
 
-PHP_VERSION = 5.3.16
+PHP_VERSION = 5.3.18
 PHP_SOURCE = php-$(PHP_VERSION).tar.bz2
 PHP_SITE = http://www.php.net/distributions
 PHP_INSTALL_STAGING = YES
@@ -102,6 +102,10 @@ endif
 ifeq ($(BR2_PACKAGE_PHP_EXT_INTL),y)
 	PHP_CONF_OPT += --enable-intl --with-icu-dir=$(STAGING_DIR)/usr
 	PHP_DEPENDENCIES += icu
+	# The intl module is implemented in C++, but PHP fails to use
+	# g++ as the compiler for the final link. As a workaround,
+	# tell it to link libstdc++.
+	PHP_CONF_ENV += EXTRA_LIBS="-lstdc++"
 endif
 
 ifeq ($(BR2_PACKAGE_PHP_EXT_GMP),y)
