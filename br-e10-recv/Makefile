@@ -24,7 +24,7 @@
 #--------------------------------------------------------------
 
 # Set and export the version string
-export BR2_VERSION:=2012.11-rc2
+export BR2_VERSION:=2013.02
 
 # Check for minimal make version (note: this check will break at make 10.x)
 MIN_MAKE_VERSION=3.81
@@ -172,6 +172,7 @@ export HOSTCC_NOCCACHE HOSTCXX_NOCCACHE
 
 # Make sure pkg-config doesn't look outside the buildroot tree
 unexport PKG_CONFIG_PATH
+unexport PKG_CONFIG_SYSROOT_DIR
 
 # Having DESTDIR set in the environment confuses the installation
 # steps of some packages.
