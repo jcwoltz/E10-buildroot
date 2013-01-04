@@ -356,13 +356,13 @@ CT_CC_GCC_LDBL_128=m
 # C-library
 #
 CT_LIBC="glibc"
-CT_LIBC_VERSION="2.9"
+CT_LIBC_VERSION="2.14.1"
 # CT_LIBC_eglibc is not set
 CT_LIBC_glibc=y
 # CT_LIBC_uClibc is not set
 CT_LIBC_eglibc_AVAILABLE=y
 CT_LIBC_glibc_AVAILABLE=y
-# CT_LIBC_GLIBC_V_2_14_1 is not set
+CT_LIBC_GLIBC_V_2_14_1
 # CT_LIBC_GLIBC_V_2_14 is not set
 # CT_LIBC_GLIBC_V_2_13 is not set
 # CT_LIBC_GLIBC_V_2_12_2 is not set
@@ -370,7 +370,7 @@ CT_LIBC_glibc_AVAILABLE=y
 # CT_LIBC_GLIBC_V_2_11_1 is not set
 # CT_LIBC_GLIBC_V_2_11 is not set
 # CT_LIBC_GLIBC_V_2_10_1 is not set
-CT_LIBC_GLIBC_V_2_9=y
+# CT_LIBC_GLIBC_V_2_9 is not set
 # CT_LIBC_GLIBC_V_2_8 is not set
 CT_LIBC_mingw_AVAILABLE=y
 CT_LIBC_newlib_AVAILABLE=y
@@ -463,18 +463,22 @@ CT_MPFR_V_2_4_2=y
 # CT_MPFR_V_2_4_1 is not set
 # CT_MPFR_V_2_4_0 is not set
 CT_MPFR_VERSION="2.4.2"
-# CT_PPL_V_0_11_2 is not set
+CT_PPL_V_0_11_2=y
 # CT_PPL_V_0_11_1 is not set
 # CT_PPL_V_0_11 is not set
-CT_PPL_V_0_10_2=y
-CT_PPL_VERSION="0.10.2"
-# CT_CLOOG_V_0_15_11 is not set
+# CT_PPL_V_0_10_2 is not set
+CT_PPL_VERSION="0.11.2"
+CT_PPL_0_11=y
+CT_PPL_NEEDS_LIBPWL=y
+CT_CLOOG_V_0_15_11=y
 # CT_CLOOG_V_0_15_10 is not set
-CT_CLOOG_V_0_15_9=y
+# CT_CLOOG_V_0_15_9 is not set
 # CT_CLOOG_V_0_15_8 is not set
 # CT_CLOOG_V_0_15_7 is not set
 # CT_CLOOG_V_0_15_6 is not set
-CT_CLOOG_VERSION="0.15.9"
+CT_CLOOG_VERSION="0.15.11"
+CT_CLOOG_0_15_1x=y
+CT_CLOOG_NEEDS_AUTORECONF=y
 CT_MPC_V_0_9=y
 # CT_MPC_V_0_8_2 is not set
 # CT_MPC_V_0_8_1 is not set

@@ -4,7 +4,7 @@
 #
 #############################################################
 
-LIBXML2_VERSION = 2.8.0
+LIBXML2_VERSION = 2.9.0
 LIBXML2_SITE = ftp://xmlsoft.org/libxml2
 LIBXML2_INSTALL_STAGING = YES
 LIBXML2_AUTORECONF = YES
@@ -26,7 +26,12 @@ LIBXML2_POST_INSTALL_STAGING_HOOKS += LIBXML2_STAGING_LIBXML2_CONFIG_FIXUP
 
 HOST_LIBXML2_DEPENDENCIES = host-pkgconf
 
+# mesa3d uses functions that are only available with debug
+ifeq ($(BR2_PACKAGE_MESA3D),y)
+HOST_LIBXML2_CONF_OPT = --with-debug
+else
 HOST_LIBXML2_CONF_OPT = --without-debug
+endif
 
 ifeq ($(BR2_PACKAGE_HOST_LIBXML2_PYTHON),y)
 HOST_LIBXML2_DEPENDENCIES += host-python
