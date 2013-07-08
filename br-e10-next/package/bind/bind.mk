@@ -1,12 +1,14 @@
-#############################################################
+################################################################################
 #
 # bind
 #
-#############################################################
+################################################################################
 
 BIND_VERSION = 9.6-ESV-R8
 BIND_SITE = ftp://ftp.isc.org/isc/bind9/$(BIND_VERSION)
 BIND_MAKE = $(MAKE1)
+BIND_LICENSE = ISC
+BIND_LICENSE_FILES = COPYRIGHT
 BIND_TARGET_SBINS = lwresd named named-checkconf named-checkzone
 BIND_TARGET_SBINS += named-compilezone rndc rndc-confgen dnssec-dsfromkey
 BIND_TARGET_SBINS += dnssec-keyfromlabel dnssec-keygen dnssec-signzone
@@ -28,7 +30,7 @@ endif
 
 ifeq ($(BR2_PACKAGE_OPENSSL),y)
 	BIND_DEPENDENCIES += openssl
-	BIND_CONF_OPT += --with-openssl=$(STAGING_DIR)/usr
+	BIND_CONF_OPT += --with-openssl=$(STAGING_DIR)/usr LIBS="-lz"
 else
 	BIND_CONF_OPT += --with-openssl=no
 endif

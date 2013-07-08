@@ -1,31 +1,37 @@
-From 39857718f4df9b40a7acf38b73140fd86c628ef0 Mon Sep 17 00:00:00 2001
-From: Gustavo Zacarias <gustavo@zacarias.com.ar>
-Date: Mon, 30 Apr 2012 09:07:38 -0300
-Subject: [PATCH] fw_env: allow it to build without a config
-
-We need to build u-boot tools without a board configuration for the
-target packages.
-fw_env just uses config.h to define the default environment of the
-created image, so it really isn't mandatory.
+We need to build u-boot tools without a board configuration for the target.
+fw_env just uses config.h to define the default environment of the created
+image, so it really isn't mandatory.
 
 Signed-off-by: Gustavo Zacarias <gustavo@zacarias.com.ar>
----
- tools/env/fw_env.c |    2 --
- 1 files changed, 0 insertions(+), 2 deletions(-)
 
-diff --git a/tools/env/fw_env.c b/tools/env/fw_env.c
-index e292d2b..2bb061a 100644
---- a/tools/env/fw_env.c
-+++ b/tools/env/fw_env.c
-@@ -45,8 +45,6 @@
+diff -Nura u-boot-2013.01.orig/tools/env/fw_env.h u-boot-2013.01/tools/env/fw_env.h
+--- u-boot-2013.01.orig/tools/env/fw_env.h	2013-01-19 07:50:53.879241660 -0300
++++ u-boot-2013.01/tools/env/fw_env.h	2013-01-19 07:58:11.897903403 -0300
+@@ -21,15 +21,6 @@
+  * MA 02111-1307 USA
+  */
  
- #include "fw_env.h"
- 
+-/* Pull in the current config to define the default environment */
+-#ifndef __ASSEMBLY__
+-#define __ASSEMBLY__ /* get only #defines from config.h */
 -#include <config.h>
+-#undef	__ASSEMBLY__
+-#else
+-#include <config.h>
+-#endif
 -
- #define WHITESPACE(c) ((c == '\t') || (c == ' '))
+ /*
+  * To build the utility with the static configuration
+  * comment out the next line.
+diff -Nura u-boot-2013.01.orig/tools/env/Makefile u-boot-2013.01/tools/env/Makefile
+--- u-boot-2013.01.orig/tools/env/Makefile	2013-01-19 07:50:53.879241660 -0300
++++ u-boot-2013.01/tools/env/Makefile	2013-01-19 07:59:34.926486346 -0300
+@@ -26,7 +26,7 @@
+ HOSTSRCS := $(SRCTREE)/lib/crc32.c  fw_env.c  fw_env_main.c
+ HOSTSRCS += $(SRCTREE)/lib/ctype.c $(SRCTREE)/lib/linux_string.c
+ HOSTSRCS += $(SRCTREE)/common/env_attr.c $(SRCTREE)/common/env_flags.c
+-HEADERS	:= fw_env.h $(OBJTREE)/include/config.h
++HEADERS	:= fw_env.h
  
- #define min(x, y) ({				\
--- 
-1.7.3.4
-
+ # Compile for a hosted environment on the target
+ HOSTCPPFLAGS  = -idirafter $(SRCTREE)/include \

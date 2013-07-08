@@ -1,8 +1,8 @@
-#############################################################
+################################################################################
 #
 # lame
 #
-#############################################################
+################################################################################
 
 LAME_VERSION_MAJOR = 3.99
 LAME_VERSION_MINOR = 5
@@ -12,6 +12,8 @@ LAME_DEPENDENCIES = host-pkgconf
 LAME_INSTALL_STAGING = YES
 LAME_CONF_ENV = GTK_CONFIG=/bin/false
 LAME_CONF_OPT = --enable-dynamic-frontends
+LAME_LICENSE = LGPLv2+
+LAME_LICENSE_FILES = COPYING
 
 ifeq ($(BR2_PACKAGE_LIBSNDFILE),y)
 LAME_DEPENDENCIES += libsndfile

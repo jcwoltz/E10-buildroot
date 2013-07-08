@@ -1,8 +1,8 @@
-#############################################################
+################################################################################
 #
 # usbutils
 #
-#############################################################
+################################################################################
 
 USBUTILS_VERSION = 006
 USBUTILS_SITE = $(BR2_KERNEL_MIRROR)/linux/utils/usb/usbutils/
@@ -51,8 +51,6 @@ define USBUTILS_REMOVE_DEVFILES
 	rm -f $(TARGET_DIR)/usr/bin/libusb-config
 endef
 
-ifneq ($(BR2_HAVE_DEVFILES),y)
 USBUTILS_POST_INSTALL_TARGET_HOOKS += USBUTILS_REMOVE_DEVFILES
-endif
 
 $(eval $(autotools-package))

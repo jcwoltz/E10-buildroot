@@ -1,10 +1,10 @@
-#############################################################
+################################################################################
 #
 # php
 #
-#############################################################
+################################################################################
 
-PHP_VERSION = 5.3.20
+PHP_VERSION = 5.3.26
 PHP_SOURCE = php-$(PHP_VERSION).tar.bz2
 PHP_SITE = http://www.php.net/distributions
 PHP_INSTALL_STAGING = YES
@@ -19,11 +19,12 @@ PHP_CONF_OPT =  --mandir=/usr/share/man \
 		--with-config-file-path=/etc \
 		--localstatedir=/var \
 		--disable-rpath
+PHP_CONFIG_SCRIPTS = php-config
 
 PHP_CFLAGS = $(TARGET_CFLAGS)
 
 # Workaround for non-IPv6 uClibc toolchain
-ifeq ($(BR2_TOOLCHAIN_BUILDROOT)$(BR2_TOOLCHAIN_EXTERNAL_UCLIBC)$(BR2_TOOLCHAIN_CTNG_uClibc),y)
+ifeq ($(BR2_TOOLCHAIN_USES_UCLIBC),y)
 ifneq ($(BR2_INET_IPV6),y)
 	PHP_CFLAGS += -DHAVE_DEPRECATED_DNS_FUNCS
 endif
@@ -56,7 +57,7 @@ PHP_CONF_OPT += $(if $(BR2_PACKAGE_PHP_EXT_SOCKETS),--enable-sockets) \
 		$(if $(BR2_PACKAGE_PHP_EXT_CTYPE),--enable-ctype) \
 		$(if $(BR2_PACKAGE_PHP_EXT_FILTER),--enable-filter) \
 		$(if $(BR2_PACKAGE_PHP_EXT_CALENDAR),--enable-calendar) \
-		$(if $(BR2_PACKAGE_PHP_EXT_FILENIFO),--enable-fileinfo) \
+		$(if $(BR2_PACKAGE_PHP_EXT_FILEINFO),--enable-fileinfo) \
 		$(if $(BR2_PACKAGE_PHP_EXT_BCMATH),--enable-bcmath)
 
 ifeq ($(BR2_PACKAGE_PHP_EXT_OPENSSL),y)
@@ -65,6 +66,7 @@ ifeq ($(BR2_PACKAGE_PHP_EXT_OPENSSL),y)
 endif
 
 ifeq ($(BR2_PACKAGE_PHP_EXT_LIBXML2),y)
+	PHP_CONF_ENV += php_cv_libxml_build_works=yes
 	PHP_CONF_OPT += --enable-libxml --with-libxml-dir=${STAGING_DIR}/usr
 	PHP_DEPENDENCIES += libxml2
 endif
@@ -200,19 +202,9 @@ ifeq ($(BR2_PACKAGE_PHP_EXT_SNMP),y)
 	PHP_DEPENDENCIES += netsnmp
 endif
 
-# Fixup prefix= and exec_prefix= in php-config
-define PHP_FIXUP_PHP_CONFIG
-	$(SED) 's%^prefix="/usr"%prefix="$(STAGING_DIR)/usr"%' \
-		-e 's%^exec_prefix="/usr"%exec_prefix="$(STAGING_DIR)/usr"%' \
-		$(STAGING_DIR)/usr/bin/php-config
-endef
-
-PHP_POST_INSTALL_STAGING_HOOKS += PHP_FIXUP_PHP_CONFIG
-
 define PHP_INSTALL_FIXUP
 	rm -rf $(TARGET_DIR)/usr/lib/php
 	rm -f $(TARGET_DIR)/usr/bin/phpize
-	rm -f $(TARGET_DIR)/usr/bin/php-config
 	if [ ! -f $(TARGET_DIR)/etc/php.ini ]; then \
 		$(INSTALL) -m 0755  $(PHP_DIR)/php.ini-production \
 			$(TARGET_DIR)/etc/php.ini; \

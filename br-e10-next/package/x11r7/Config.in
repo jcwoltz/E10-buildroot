@@ -1,9 +1,5 @@
 menuconfig BR2_PACKAGE_XORG7
 	bool "X.org X Window System"
-	select BR2_PACKAGE_ZLIB
-	select BR2_PACKAGE_LIBPNG
-	select BR2_PACKAGE_EXPAT
-	select BR2_PACKAGE_FONTCONFIG
 	depends on BR2_USE_WCHAR
 	help
 	  Support for X11R7 libraries, servers, drivers, and/or
@@ -12,33 +8,16 @@ menuconfig BR2_PACKAGE_XORG7
 	  http://xorg.freedesktop.org
 
 if BR2_PACKAGE_XORG7
-
-choice
-	prompt "X Window System server type"
-	default BR2_PACKAGE_XSERVER_tinyx
-	help
-	  Select the X Window System server to use
-
-config BR2_PACKAGE_XSERVER_xorg
-	bool "Modular X.org"
-	depends on BR2_LARGEFILE && BR2_INSTALL_LIBSTDCPP
-
-comment 'X.org requires largefile and C++ support'
-	depends on !(BR2_LARGEFILE && BR2_INSTALL_LIBSTDCPP)
-
-config BR2_PACKAGE_XSERVER_tinyx
-	bool "TinyX"
-
-endchoice
-
-menu "X11R7 Servers"
-	source package/x11r7/xserver_xorg-server/Config.in
-endmenu
+	menu "X11R7 Servers"
+		source package/x11r7/xserver_xorg-server/Config.in
+	endmenu
 	menu "X11R7 Libraries"
 		source package/x11r7/libxcb/Config.in
 		source package/x11r7/mesa3d/Config.in
 		source package/x11r7/xcb-util/Config.in
+		source package/x11r7/xcb-util-image/Config.in
 		source package/x11r7/xcb-util-keysyms/Config.in
+		source package/x11r7/xcb-util-wm/Config.in
 		source package/x11r7/xlib_libFS/Config.in
 		source package/x11r7/xlib_libICE/Config.in
 		source package/x11r7/xlib_libSM/Config.in
@@ -53,15 +32,11 @@ endmenu
 		source package/x11r7/xlib_libXext/Config.in
 		source package/x11r7/xlib_libXfixes/Config.in
 		source package/x11r7/xlib_libXfont/Config.in
-		source package/x11r7/xlib_libXfontcache/Config.in
 		source package/x11r7/xlib_libXft/Config.in
 		source package/x11r7/xlib_libXi/Config.in
 		source package/x11r7/xlib_libXinerama/Config.in
 		source package/x11r7/xlib_libXmu/Config.in
-		source package/x11r7/xlib_libXp/Config.in
 		source package/x11r7/xlib_libXpm/Config.in
-		source package/x11r7/xlib_libXprintAppUtil/Config.in
-		source package/x11r7/xlib_libXprintUtil/Config.in
 		source package/x11r7/xlib_libXrandr/Config.in
 		source package/x11r7/xlib_libXrender/Config.in
 		source package/x11r7/xlib_libXres/Config.in
@@ -73,9 +48,7 @@ endmenu
 		source package/x11r7/xlib_libXxf86vm/Config.in
 		source package/x11r7/xlib_libdmx/Config.in
 		source package/x11r7/xlib_libfontenc/Config.in
-		source package/x11r7/xlib_liboldX/Config.in
 		source package/x11r7/xlib_libxkbfile/Config.in
-		source package/x11r7/xlib_libxkbui/Config.in
 		source package/x11r7/xlib_xtrans/Config.in
 		source package/x11r7/xlib_libpciaccess/Config.in
 		source package/x11r7/xlib_libpthread-stubs/Config.in
@@ -149,9 +122,7 @@ endmenu
 		source package/x11r7/xapp_xmh/Config.in
 		source package/x11r7/xapp_xmodmap/Config.in
 		source package/x11r7/xapp_xmore/Config.in
-		source package/x11r7/xapp_xplsprinters/Config.in
 		source package/x11r7/xapp_xpr/Config.in
-		source package/x11r7/xapp_xprehashprinterlist/Config.in
 		source package/x11r7/xapp_xprop/Config.in
 		source package/x11r7/xapp_xrandr/Config.in
 		source package/x11r7/xapp_xrdb/Config.in
@@ -168,7 +139,7 @@ endmenu
 		source package/x11r7/xapp_xwininfo/Config.in
 		source package/x11r7/xapp_xwud/Config.in
 	endmenu
-	if BR2_PACKAGE_XSERVER_xorg
+	if BR2_PACKAGE_XSERVER_XORG_SERVER_MODULAR
 	menu "X11R7 Drivers"
 		source package/x11r7/xdriver_xf86-input-evdev/Config.in
 		source package/x11r7/xdriver_xf86-input-joystick/Config.in
@@ -227,7 +198,6 @@ endmenu
 		source package/x11r7/xfont_font-bh-type1/Config.in
 		source package/x11r7/xfont_font-bitstream-100dpi/Config.in
 		source package/x11r7/xfont_font-bitstream-75dpi/Config.in
-		source package/x11r7/xfont_font-bitstream-speedo/Config.in
 		source package/x11r7/xfont_font-bitstream-type1/Config.in
 		source package/x11r7/xfont_font-cronyx-cyrillic/Config.in
 		source package/x11r7/xfont_font-cursor-misc/Config.in
@@ -263,7 +233,6 @@ endmenu
 		source package/x11r7/xproto_glproto/Config.in
 		source package/x11r7/xproto_inputproto/Config.in
 		source package/x11r7/xproto_kbproto/Config.in
-		source package/x11r7/xproto_printproto/Config.in
 		source package/x11r7/xproto_randrproto/Config.in
 		source package/x11r7/xproto_recordproto/Config.in
 		source package/x11r7/xproto_renderproto/Config.in
@@ -276,7 +245,6 @@ endmenu
 		source package/x11r7/xproto_xf86bigfontproto/Config.in
 		source package/x11r7/xproto_xf86dgaproto/Config.in
 		source package/x11r7/xproto_xf86driproto/Config.in
-		source package/x11r7/xproto_xf86rushproto/Config.in
 		source package/x11r7/xproto_xf86vidmodeproto/Config.in
 		source package/x11r7/xproto_xineramaproto/Config.in
 		source package/x11r7/xproto_xproto/Config.in
@@ -289,7 +257,7 @@ endmenu
 	menu "X11R7 Other data"
 		source package/x11r7/xdata_xbitmaps/Config.in
 		source package/x11r7/xdata_xcursor-themes/Config.in
-		source package/x11r7/xkeyboard-config/Config.in
+		source package/x11r7/xcursor-transparent-theme/Config.in
 	endmenu
 endif
 

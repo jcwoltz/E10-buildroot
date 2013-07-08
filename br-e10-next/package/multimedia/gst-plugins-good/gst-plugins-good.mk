@@ -1,8 +1,9 @@
-#############################################################
+################################################################################
 #
 # gst-plugins-good
 #
-#############################################################
+################################################################################
+
 GST_PLUGINS_GOOD_VERSION = 0.10.31
 GST_PLUGINS_GOOD_SOURCE = gst-plugins-good-$(GST_PLUGINS_GOOD_VERSION).tar.bz2
 GST_PLUGINS_GOOD_SITE = http://gstreamer.freedesktop.org/src/gst-plugins-good
@@ -342,6 +343,13 @@ else
 GST_PLUGINS_GOOD_CONF_OPT += --disable-flac
 endif
 
+ifeq ($(BR2_PACKAGE_GST_PLUGINS_GOOD_PLUGIN_GDKPIXBUF),y)
+GST_PLUGINS_GOOD_CONF_OPT += --enable-gdk_pixbuf
+GST_PLUGINS_GOOD_DEPENDENCIES += gdk-pixbuf
+else
+GST_PLUGINS_GOOD_CONF_OPT += --disable-gdk_pixbuf
+endif
+
 ifeq ($(BR2_PACKAGE_GST_PLUGINS_GOOD_PLUGIN_OSS),y)
 GST_PLUGINS_GOOD_CONF_OPT += --enable-oss
 else
@@ -373,6 +381,13 @@ GST_PLUGINS_GOOD_CONF_OPT += --enable-speex
 GST_PLUGINS_GOOD_DEPENDENCIES += speex
 else
 GST_PLUGINS_GOOD_CONF_OPT += --disable-speex
+endif
+
+ifeq ($(BR2_PACKAGE_GST_PLUGINS_GOOD_PLUGIN_WAVPACK),y)
+GST_PLUGINS_GOOD_CONF_OPT += --enable-wavpack
+GST_PLUGINS_GOOD_DEPENDENCIES += wavpack
+else
+GST_PLUGINS_GOOD_CONF_OPT += --disable-wavpack
 endif
 
 $(eval $(autotools-package))

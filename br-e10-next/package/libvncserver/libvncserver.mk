@@ -1,14 +1,16 @@
-#############################################################
+################################################################################
 #
 # libvncserver
 #
-#############################################################
+################################################################################
 
-LIBVNCSERVER_VERSION = 0.9.8.2
+LIBVNCSERVER_VERSION = 0.9.9
 LIBVNCSERVER_SOURCE = LibVNCServer-$(LIBVNCSERVER_VERSION).tar.gz
 LIBVNCSERVER_SITE = http://downloads.sourceforge.net/project/libvncserver/libvncserver/$(LIBVNCSERVER_VERSION)
-
+LIBVNCSERVER_LICENSE = GPLv2+
+LIBVNCSERVER_LICENSE_FILES = COPYING
 LIBVNCSERVER_INSTALL_STAGING = YES
+LIBVNCSERVER_CONFIG_SCRIPTS = libvncserver-config
 
 # only used for examples
 LIBVNCSERVER_CONF_OPT += --with-sdl-config=/bin/false
@@ -30,7 +32,7 @@ else
 LIBVNCSERVER_CONF_OPT += --without-gcrypt
 endif
 
-ifeq ($(BR2_PACKAGE_GNUTLS),y)
+ifeq ($(BR2_PACKAGE_GNUTLS)$(BR2_PACKAGE_LIBGCRYPT),yy)
 LIBVNCSERVER_DEPENDENCIES += gnutls host-pkgconf
 else
 LIBVNCSERVER_CONF_OPT += --without-gnutls

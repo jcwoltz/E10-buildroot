@@ -1,8 +1,9 @@
-#############################################################
+################################################################################
 #
 # gst-plugins-bad
 #
-#############################################################
+################################################################################
+
 GST_PLUGINS_BAD_VERSION = 0.10.23
 GST_PLUGINS_BAD_SOURCE = gst-plugins-bad-$(GST_PLUGINS_BAD_VERSION).tar.bz2
 GST_PLUGINS_BAD_SITE = http://gstreamer.freedesktop.org/src/gst-plugins-bad
@@ -506,6 +507,13 @@ ifeq ($(BR2_PACKAGE_GST_PLUGINS_BAD_PLUGIN_DVB),y)
 GST_PLUGINS_BAD_CONF_OPT += --enable-dvb
 else
 GST_PLUGINS_BAD_CONF_OPT += --disable-dvb
+endif
+
+ifeq ($(BR2_PACKAGE_GST_PLUGINS_BAD_PLUGIN_FAAD),y)
+GST_PLUGINS_BAD_CONF_OPT += --enable-faad
+GST_PLUGINS_BAD_DEPENDENCIES += faad2
+else
+GST_PLUGINS_BAD_CONF_OPT += --disable-faad
 endif
 
 ifeq ($(BR2_PACKAGE_GST_PLUGINS_BAD_PLUGIN_FBDEV),y)

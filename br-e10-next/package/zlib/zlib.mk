@@ -1,8 +1,8 @@
-#############################################################
+################################################################################
 #
 # zlib
 #
-#############################################################
+################################################################################
 
 ZLIB_VERSION = 1.2.7
 ZLIB_SOURCE =zlib-$(ZLIB_VERSION).tar.bz2
@@ -12,11 +12,11 @@ ZLIB_LICENSE_FILES = README
 ZLIB_INSTALL_STAGING = YES
 
 ifeq ($(BR2_PREFER_STATIC_LIB),y)
-ZLIB_PIC :=
-ZLIB_SHARED := --static
+ZLIB_PIC =
+ZLIB_SHARED = --static
 else
-ZLIB_PIC := -fPIC
-ZLIB_SHARED := --shared
+ZLIB_PIC = -fPIC
+ZLIB_SHARED = --shared
 endif
 
 define ZLIB_CONFIGURE_CMDS

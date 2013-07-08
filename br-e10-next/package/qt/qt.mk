@@ -1,4 +1,4 @@
-######################################################################
+################################################################################
 #
 # Qt Embedded for Linux
 #
@@ -9,13 +9,19 @@
 # the kernels FPU emulation so it's better to choose soft float in the
 # buildroot config (and uClibc.config of course, if you have your own.)
 #
-######################################################################
+################################################################################
 
-QT_VERSION = 4.8.3
+QT_VERSION = 4.8.5
 QT_SOURCE  = qt-everywhere-opensource-src-$(QT_VERSION).tar.gz
-QT_SITE    = http://releases.qt-project.org/qt4/source
+QT_SITE    = http://download.qt-project.org/official_releases/qt/4.8/$(QT_VERSION)
 QT_DEPENDENCIES = host-pkgconf
 QT_INSTALL_STAGING = YES
+
+QT_LICENSE = LGPLv2.1 with exceptions or GPLv3
+ifneq ($(BR2_PACKAGE_QT_LICENSE_APPROVED),y)
+QT_LICENSE += or Digia Qt Commercial license
+endif
+QT_LICENSE_FILES = LICENSE.LGPL LGPL_EXCEPTION.txt LICENSE.GPL3
 
 ifeq ($(BR2_PACKAGE_QT_LICENSE_APPROVED),y)
 QT_CONFIGURE_OPTS += -opensource -confirm-license
@@ -66,7 +72,7 @@ endif
 
 
 ### Pixel depths
-QT_PIXEL_DEPTHS := # empty
+QT_PIXEL_DEPTHS = # empty
 ifeq ($(BR2_PACKAGE_QT_PIXEL_DEPTH_1),y)
 QT_PIXEL_DEPTHS += 1
 endif
@@ -416,10 +422,10 @@ else
 QT_CONFIGURE_OPTS += -no-declarative
 endif
 
-# ccache and precompiled headers don't play well together
-ifeq ($(BR2_CCACHE),y)
+# -no-pch is needed to workaround the issue described at
+# http://comments.gmane.org/gmane.comp.lib.qt.devel/5933.
+# In addition, ccache and precompiled headers don't play well together
 QT_CONFIGURE_OPTS += -no-pch
-endif
 
 # x86x86fix
 # Workaround Qt Embedded bug when crosscompiling for x86 under x86 with linux
@@ -432,7 +438,7 @@ endif
 # End of workaround.
 
 # Variable for other Qt applications to use
-QT_QMAKE:=$(HOST_DIR)/usr/bin/qmake -spec qws/linux-$(QT_EMB_PLATFORM)-g++
+QT_QMAKE = $(HOST_DIR)/usr/bin/qmake -spec qws/linux-$(QT_EMB_PLATFORM)-g++
 
 ################################################################################
 # QT_QMAKE_SET -- helper macro to set <variable> = <value> in
@@ -498,6 +504,7 @@ define QT_CONFIGURE_CMDS
 		-no-separate-debug-info \
 		-prefix /usr \
 		-plugindir /usr/lib/qt/plugins \
+		-importdir /usr/lib/qt/imports \
 		-hostprefix $(STAGING_DIR) \
 		-fast \
 		-no-rpath \
@@ -610,6 +617,14 @@ define QT_INSTALL_TARGET_PLUGINS
 	fi
 endef
 
+# Import installation
+define QT_INSTALL_TARGET_IMPORTS
+	if [ -d $(STAGING_DIR)/usr/lib/qt/imports/ ] ; then \
+		mkdir -p $(TARGET_DIR)/usr/lib/qt/imports ; \
+		cp -dpfr $(STAGING_DIR)/usr/lib/qt/imports/* $(TARGET_DIR)/usr/lib/qt/imports ; \
+	fi
+endef
+
 # Fonts installation
 ifneq ($(QT_FONTS),)
 define QT_INSTALL_TARGET_FONTS
@@ -628,6 +643,7 @@ endif
 define QT_INSTALL_TARGET_CMDS
 	$(QT_INSTALL_TARGET_LIBS)
 	$(QT_INSTALL_TARGET_PLUGINS)
+	$(QT_INSTALL_TARGET_IMPORTS)
 	$(QT_INSTALL_TARGET_FONTS)
 	$(QT_INSTALL_TARGET_FONTS_TTF)
 endef

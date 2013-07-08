@@ -1,16 +1,17 @@
-#############################################################
+################################################################################
 #
 # wpa_supplicant
 #
-#############################################################
+################################################################################
 
-WPA_SUPPLICANT_VERSION = 1.1
+WPA_SUPPLICANT_VERSION = 2.0
 WPA_SUPPLICANT_SITE = http://hostap.epitest.fi/releases
 WPA_SUPPLICANT_LICENSE = GPLv2/BSD-3c
 WPA_SUPPLICANT_LICENSE_FILES = README
 WPA_SUPPLICANT_CONFIG = $(WPA_SUPPLICANT_DIR)/wpa_supplicant/.config
 WPA_SUPPLICANT_SUBDIR = wpa_supplicant
-WPA_SUPPLICANT_DBUS_SERVICE = fi.epitest.hostap.WPASupplicant
+WPA_SUPPLICANT_DBUS_OLD_SERVICE = fi.epitest.hostap.WPASupplicant
+WPA_SUPPLICANT_DBUS_NEW_SERVICE = fi.w1.wpa_supplicant1
 WPA_SUPPLICANT_CFLAGS = $(TARGET_CFLAGS) -I$(STAGING_DIR)/usr/include/libnl3/
 WPA_SUPPLICANT_LDFLAGS = $(TARGET_LDFLAGS)
 
@@ -36,6 +37,7 @@ define WPA_SUPPLICANT_EAP_CONFIG
 	$(SED) 's/\(#\)\(CONFIG_EAP_SAKE.*\)/\2/' $(WPA_SUPPLICANT_CONFIG)
 	$(SED) 's/\(#\)\(CONFIG_EAP_SIM.*\)/\2/' $(WPA_SUPPLICANT_CONFIG)
 	$(SED) 's/\(#\)\(CONFIG_EAP_TNC.*\)/\2/' $(WPA_SUPPLICANT_CONFIG)
+	$(SED) 's/\(#\)\(CONFIG_TLSV1.*\)/\2/' $(WPA_SUPPLICANT_CONFIG)
 endef
 else
 define WPA_SUPPLICANT_EAP_CONFIG
@@ -77,15 +79,49 @@ ifeq ($(BR2_PACKAGE_DBUS),y)
 	WPA_SUPPLICANT_MAKE_ENV = \
 		PKG_CONFIG_SYSROOT_DIR="$(STAGING_DIR)"	\
 		PKG_CONFIG_PATH="$(STAGING_DIR)/usr/lib/pkgconfig"
-define WPA_SUPPLICANT_DBUS_CONFIG
+
+ifeq ($(BR2_PACKAGE_WPA_SUPPLICANT_DBUS_OLD),y)
+define WPA_SUPPLICANT_DBUS_OLD_CONFIG
 	$(SED) 's/\(#\)\(CONFIG_CTRL_IFACE_DBUS=\)/\2/' $(WPA_SUPPLICANT_CONFIG)
 endef
+define WPA_SUPPLICANT_INSTALL_DBUS_OLD
+	$(INSTALL) -D \
+	  $(@D)/wpa_supplicant/dbus/$(WPA_SUPPLICANT_DBUS_OLD_SERVICE).service \
+	  $(TARGET_DIR)/usr/share/dbus-1/system-services/$(WPA_SUPPLICANT_DBUS_OLD_SERVICE).service
+endef
+endif
+
+ifeq ($(BR2_PACKAGE_WPA_SUPPLICANT_DBUS_NEW),y)
+define WPA_SUPPLICANT_DBUS_NEW_CONFIG
+	$(SED) 's/\(#\)\(CONFIG_CTRL_IFACE_DBUS_NEW=\)/\2/' $(WPA_SUPPLICANT_CONFIG)
+endef
+define WPA_SUPPLICANT_INSTALL_DBUS_NEW
+	$(INSTALL) -D \
+	  $(@D)/wpa_supplicant/dbus/$(WPA_SUPPLICANT_DBUS_NEW_SERVICE).service \
+	  $(TARGET_DIR)/usr/share/dbus-1/system-services/$(WPA_SUPPLICANT_DBUS_NEW_SERVICE).service
+endef
+endif
+
+ifeq ($(BR2_PACKAGE_WPA_SUPPLICANT_DBUS_INTROSPECTION),y)
+define WPA_SUPPLICANT_DBUS_INTROSPECTION_CONFIG
+	$(SED) 's/\(#\)\(CONFIG_CTRL_IFACE_DBUS_INTRO=\)/\2/' $(WPA_SUPPLICANT_CONFIG)
+endef
+endif
+
+define WPA_SUPPLICANT_DBUS_CONFIG
+	$(WPA_SUPPLICANT_DBUS_OLD_CONFIG)
+	$(WPA_SUPPLICANT_DBUS_NEW_CONFIG)
+	$(WPA_SUPPLICANT_DBUS_INTROSPECTION_CONFIG)
+endef
+
 endif
 
 define WPA_SUPPLICANT_CONFIGURE_CMDS
 	cp $(@D)/wpa_supplicant/defconfig $(WPA_SUPPLICANT_CONFIG)
+	$(SED) 's/\(#\)\(CONFIG_HS20.*\)/\2/' $(WPA_SUPPLICANT_CONFIG)
 	$(SED) 's/\(#\)\(CONFIG_IEEE80211N.*\)/\2/' $(WPA_SUPPLICANT_CONFIG)
 	$(SED) 's/\(#\)\(CONFIG_IEEE80211R.*\)/\2/' $(WPA_SUPPLICANT_CONFIG)
+	$(SED) 's/\(#\)\(CONFIG_IEEE80211W.*\)/\2/' $(WPA_SUPPLICANT_CONFIG)
 	$(SED) 's/\(#\)\(CONFIG_INTERWORKING.*\)/\2/' $(WPA_SUPPLICANT_CONFIG)
 	$(SED) 's/\(#\)\(CONFIG_DELAYED_MIC.*\)/\2/' $(WPA_SUPPLICANT_CONFIG)
 	$(SED) 's/\(CONFIG_DRIVER_ATMEL\)/#\1/' $(WPA_SUPPLICANT_CONFIG)
@@ -124,9 +160,8 @@ define WPA_SUPPLICANT_INSTALL_DBUS
 	$(INSTALL) -D \
 	  $(@D)/wpa_supplicant/dbus/dbus-wpa_supplicant.conf \
 	  $(TARGET_DIR)/etc/dbus-1/system.d/wpa_supplicant.conf
-	$(INSTALL) -D \
-	  $(@D)/wpa_supplicant/dbus/$(WPA_SUPPLICANT_DBUS_SERVICE).service \
-	  $(TARGET_DIR)/usr/share/dbus-1/system-services/$(WPA_SUPPLICANT_DBUS_SERVICE).service
+	$(WPA_SUPPLICANT_INSTALL_DBUS_OLD)
+	$(WPA_SUPPLICANT_INSTALL_DBUS_NEW)
 endef
 endif
 

@@ -13,6 +13,7 @@ GD_INSTALL_STAGING = YES
 GD_LICENSE = GD license
 GD_LICENSE_FILES = COPYING
 
+GD_CONFIG_SCRIPTS = gdlib-config
 GD_CONF_OPT = --without-x --disable-rpath
 
 ifeq ($(BR2_PACKAGE_FONTCONFIG),y)
@@ -23,6 +24,8 @@ endif
 ifeq ($(BR2_PACKAGE_FREETYPE),y)
 GD_DEPENDENCIES += freetype
 GD_CONF_ENV += ac_cv_path_FREETYPE_CONFIG=$(STAGING_DIR)/usr/bin/freetype-config
+else
+GD_CONF_OPT += --without-freetype
 endif
 
 ifeq ($(BR2_PACKAGE_JPEG),y)
@@ -33,6 +36,10 @@ endif
 ifeq ($(BR2_PACKAGE_LIBPNG),y)
 GD_DEPENDENCIES += libpng
 GD_CONF_OPT += --with-png
+GD_CONF_ENV += ac_cv_path_LIBPNG12_CONFIG=""
+GD_CONF_ENV += ac_cv_path_LIBPNG_CONFIG=$(STAGING_DIR)/usr/bin/libpng-config
+else
+GD_CONF_OPT += --without-png
 endif
 
 ifeq ($(BR2_PACKAGE_XLIB_LIBXPM),y)
@@ -60,15 +67,6 @@ endef
 GD_PRE_CONFIGURE_HOOKS += GD_FIXUP_ICONV
 endif
 
-define GD_FIXUP_GDLIB_CONFIG
-	$(SED) 's%prefix=/usr%prefix=$(STAGING_DIR)/usr%' \
-	    -e 's%exec_prefix=/usr%exec_prefix=$(STAGING_DIR)/usr%' \
-		$(STAGING_DIR)/usr/bin/gdlib-config
-endef
-
-GD_POST_INSTALL_STAGING_HOOKS += GD_FIXUP_GDLIB_CONFIG
-
-GD_TOOLS_                         	+= gdlib-config
 GD_TOOLS_$(BR2_PACKAGE_GD_ANNOTATE)	+= annotate
 GD_TOOLS_$(BR2_PACKAGE_GD_BDFTOGD)	+= bdftogd
 GD_TOOLS_$(BR2_PACKAGE_GD_GD2COPYPAL)	+= gd2copypal

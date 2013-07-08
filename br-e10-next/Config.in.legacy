@@ -29,24 +29,176 @@ config BR2_LEGACY
 comment "Legacy detected: check the content of the menu below"
 	depends on BR2_LEGACY
 
-# This option should get a new name with every buildroot release, so it defaults
-# to y again for people who upgrade.
-menuconfig BR2_LEGACY_CHECK_2012_11
-	bool "Check for legacy config options"
-	default y
+menu "Legacy config options"
+
+if BR2_LEGACY
+comment "Your old configuration uses legacy options that no  "
+comment "longer exist in buildroot.                          "
+comment "Please look at the options which have been selected "
+comment "and read their help text.                           "
+comment "As long as these options stay selected, the build   "
+comment "will fail.                                          "
+comment "Note: at some point in the future, the oldest legacy"
+comment "options will be removed, and configuration files    "
+comment "that still have those options set, will fail to     "
+comment "build, or run, in unpredictable ways.               "
+endif
+
+###############################################################################
+comment "Legacy options removed in 2013.08"
+
+config BR2_PACKAGE_DOSFSTOOLS_DOSFSCK
+	bool "dosfstools dosfsck renamed to fsck.fat"
+	select BR2_LEGACY
+	select BR2_PACKAGE_DOSFSTOOLS_FSCK_FAT
 	help
-	  Select this option to see the config options that are present in your
-	  current .config but are no longer supported by buildroot. If any of
-	  the options in this menu is selected, they should be replaced with
-	  something else. As long as they stay selected, the build will fail.
-	  Just de-select this option to automatically remove all the legacy
-	  configuration.
+	  dosfsck was renamed upstream to fsck.fat for consistency.
 
-if BR2_LEGACY_CHECK_2012_11
+config BR2_PACKAGE_DOSFSTOOLS_DOSFSLABEL
+	bool "dosfstools dosfslabel renamed to fatlabel"
+	select BR2_LEGACY
+	select BR2_PACKAGE_DOSFSTOOLS_FATLABEL
+	help
+	  doslabel was renamed upstream to fatlabel for consistency.
 
-#
-# Legacy options from 2012.08
-#
+config BR2_PACKAGE_DOSFSTOOLS_MKDOSFS
+	bool "dosfstools mkdosfs renamed to mkfs.fat"
+	select BR2_LEGACY
+	select BR2_PACKAGE_DOSFSTOOLS_MKFS_FAT
+	help
+	  mkdosfs was renamed upstream to mkfs.fat for consistency.
+
+config BR2_ELF2FLT
+	bool "the elf2flt option has been renamed"
+	select BR2_LEGACY
+	help
+	  The BR2_ELF2FLT option has been renamed to
+	  BR2_PACKAGE_HOST_ELF2FLT due to the conversion of elf2flt to
+	  the package infrastructure.
+
+###############################################################################
+comment "Legacy options removed in 2013.05"
+
+config BR2_PACKAGE_LINUX_FIRMWARE_RTL_8192
+	bool "Realtek 8192 replaced by Realtek 81xx"
+	select BR2_LEGACY
+	select BR2_PACKAGE_LINUX_FIRMWARE_RTL_81XX
+	help
+	  Now covers the whole Realtek 81xx familly: 8188/8192.
+
+config BR2_PACKAGE_LINUX_FIRMWARE_RTL_8712
+	bool "Realtek 8712 replaced by Realtek 87xx"
+	select BR2_LEGACY
+	select BR2_PACKAGE_LINUX_FIRMWARE_RTL_87XX
+	help
+	  Now covers the whole Realtek 87xx familly: 8712/8723.
+
+###############################################################################
+comment "Legacy options removed in 2013.02"
+
+config BR2_sa110
+	bool "sa110 ARM target switched to strongarm"
+	select BR2_LEGACY
+	select BR2_strongarm
+	help
+	  The SA110 is the same as a generic StrongARM, it just differs
+	  in speed, peripherals and cache.
+
+config BR2_sa1100
+	bool "sa1100 ARM target switched to strongarm"
+	select BR2_LEGACY
+	select BR2_strongarm
+	help
+	  The SA1100 is the same as a generic StrongARM, it just differs
+	  in speed, peripherals and cache.
+
+config BR2_PACKAGE_GDISK
+	bool "gdisk has been replaced by gptfdisk"
+	select BR2_LEGACY
+	select BR2_PACKAGE_GPTFDISK
+	help
+	  The option has been renamed BR2_PACKAGE_GPTFDISK.
+
+config BR2_PACKAGE_GDISK_GDISK
+	bool "gdisk tool from gdisk has been replaced by gdisk in gptfdisk"
+	select BR2_LEGACY
+	select BR2_PACKAGE_GPTFDISK
+	select BR2_PACKAGE_GPTFDISK_GDISK
+	help
+	  The option has been renamed BR2_PACKAGE_GPTFDISK_GDISK.
+
+config BR2_PACKAGE_GDISK_SGDISK
+	bool "sgdisk tool from gdisk has been replaced by sgdisk in gptfdisk"
+	select BR2_LEGACY
+	select BR2_PACKAGE_GPTFDISK
+	select BR2_PACKAGE_GPTFDISK_SGDISK
+	help
+	  The option has been renamed BR2_PACKAGE_GPTFDISK_SGDISK.
+
+config BR2_PACKAGE_GDB_HOST
+	bool "gdb for the host option has been renamed"
+	select BR2_PACKAGE_HOST_GDB
+	select BR2_LEGACY
+	help
+	  Due to the conversion of gdb to the package infrastructure,
+	  the BR2_PACKAGE_GDB_HOST option has been renamed
+	  BR2_PACKAGE_HOST_GDB.
+
+config BR2_PACKAGE_DIRECTB_DITHER_RGB16
+	bool "DirectFB RGB16 dithering option has been renamed"
+	select BR2_PACKAGE_DIRECTFB_DITHER_RGB16
+	select BR2_LEGACY
+	help
+	  The option has been renamed
+	  BR2_PACKAGE_DIRECTFB_DITHER_RGB16.
+
+config BR2_PACKAGE_DIRECTB_TESTS
+	bool "DirectFB Tests option has been renamed"
+	select BR2_PACKAGE_DIRECTFB_TESTS
+	select BR2_LEGACY
+	help
+	  The option has been renamed
+	  BR2_PACKAGE_DIRECTFB_TESTS.
+
+###############################################################################
+comment "Legacy options removed in 2012.11"
+
+config BR2_PACKAGE_CUSTOMIZE
+	bool "customize package has been removed"
+	select BR2_LEGACY
+	help
+	  The 'customize' special package has been removed. Instead,
+	  we recommend to create either your own packages, or use a
+	  post-build script to customize your root filesystem. See
+	  Buildroot's documentation for more details.
+
+config BR2_PACKAGE_XSERVER_xorg
+	bool "X.org modular server"
+	select BR2_LEGACY
+	select BR2_PACKAGE_XSERVER_XORG_SERVER_MODULAR
+	help
+	  The option has been renamed
+	  BR2_PACKAGE_XSERVER_XORG_SERVER_MODULAR.
+
+config BR2_PACKAGE_XSERVER_tinyx
+	bool "KDrive / TinyX server"
+	select BR2_LEGACY
+	select BR2_PACKAGE_XSERVER_XORG_SERVER_KDRIVE
+	help
+	  The option has been renamed
+	  BR2_PACKAGE_XSERVER_XORG_SERVER_KDRIVE.
+
+config BR2_PACKAGE_PTHREAD_STUBS
+	bool "pthread-stubs option has been renamed"
+	select BR2_LEGACY
+	select BR2_PACKAGE_XLIB_LIBPTHREAD_STUBS
+	depends on BR2_PACKAGE_XORG7
+	help
+	  For consistency reason, the pthread-stubs package has been
+	  renamed to xlib_libpthread-stubs.
+
+###############################################################################
+comment "Legacy options removed in 2012.08"
 
 config BR2_PACKAGE_GETTEXT_STATIC
 	bool "libgettext.a is now selected by BR2_PREFER_STATIC_LIB"
@@ -70,12 +222,14 @@ config BR2_PACKAGE_INPUT_TOOLS_EVTEST
 	help
 	  The evtest program from input-tools is now a separate package.
 
-config BR2_PACKAGE_PTHREAD_STUBS
-	bool "pthread-stubs option has been renamed"
+config BR2_BFIN_FDPIC
+	bool "BR2_BFIN_FDPIC is now BR2_BINFMT_FDPIC"
+	select BR2_BINFMT_FDPIC
 	select BR2_LEGACY
-	select BR2_PACKAGE_XLIB_LIBPTHREAD_STUBS
-	help
-	  For consistency reason, the pthread-stubs package has been
-	  renamed to xlib_libpthread-stubs.
 
-endif
+config BR2_BFIN_FLAT
+	bool "BR2_BFIN_FLAT is now BR2_BINFMT_FLAT"
+	select BR2_BINFMT_FLAT
+	select BR2_LEGACY
+
+endmenu
