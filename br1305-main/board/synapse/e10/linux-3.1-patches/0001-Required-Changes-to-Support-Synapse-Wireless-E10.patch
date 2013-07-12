@@ -1,0 +1,581 @@
+From 6bff514c4d8b7ce8127773b0b6b8cfca442ee735 Mon Sep 17 00:00:00 2001
+From: "J.C. Woltz" <jwoltz@gmail.com>
+Date: Mon, 24 Oct 2011 23:30:42 -0400
+Subject: [PATCH 1/3] Required Changes to Support Synapse Wireless E10
+
+
+Signed-off-by: J.C. Woltz <jwoltz@gmail.com>
+---
+ arch/arm/configs/e10_defconfig |  212 +++++++++++++++++++++++++++
+ arch/arm/mach-at91/Kconfig     |    6 +
+ arch/arm/mach-at91/Makefile    |    1 +
+ arch/arm/mach-at91/board-e10.c |  309 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 528 insertions(+), 0 deletions(-)
+ create mode 100644 arch/arm/configs/e10_defconfig
+ create mode 100644 arch/arm/mach-at91/board-e10.c
+
+diff --git a/arch/arm/configs/e10_defconfig b/arch/arm/configs/e10_defconfig
+new file mode 100644
+index 0000000..1c1ca9c2
+--- /dev/null
++++ b/arch/arm/configs/e10_defconfig
+@@ -0,0 +1,212 @@
++CONFIG_EXPERIMENTAL=y
++# CONFIG_LOCALVERSION_AUTO is not set
++CONFIG_DEFAULT_HOSTNAME="e10"
++# CONFIG_SWAP is not set
++CONFIG_SYSVIPC=y
++CONFIG_IKCONFIG=y
++CONFIG_IKCONFIG_PROC=y
++CONFIG_LOG_BUF_SHIFT=14
++# CONFIG_UTS_NS is not set
++# CONFIG_IPC_NS is not set
++# CONFIG_USER_NS is not set
++# CONFIG_PID_NS is not set
++# CONFIG_NET_NS is not set
++CONFIG_CC_OPTIMIZE_FOR_SIZE=y
++CONFIG_SLAB=y
++CONFIG_MODULES=y
++CONFIG_MODULE_UNLOAD=y
++# CONFIG_BLK_DEV_BSG is not set
++# CONFIG_IOSCHED_DEADLINE is not set
++CONFIG_ARCH_AT91=y
++CONFIG_ARCH_AT91SAM9G20=y
++CONFIG_MACH_E10=y
++# CONFIG_ARM_THUMB is not set
++CONFIG_AEABI=y
++CONFIG_LEDS=y
++CONFIG_LEDS_CPU=y
++CONFIG_ZBOOT_ROM_TEXT=0x0
++CONFIG_ZBOOT_ROM_BSS=0x0
++CONFIG_CMDLINE="mem=64M console=ttyS0,115200 root=/dev/mtdblock1 mtdparts=atmel_nand:16M(kernel)ro,120M(rootfs),4M(kernel2),16M(recovery),-(logs) rw rootfstype=jffs2"
++CONFIG_CPU_IDLE=y
++CONFIG_FPE_NWFPE=y
++# CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
++CONFIG_NET=y
++CONFIG_PACKET=y
++CONFIG_UNIX=y
++CONFIG_INET=y
++CONFIG_IP_PNP=y
++CONFIG_IP_PNP_BOOTP=y
++# CONFIG_INET_XFRM_MODE_TRANSPORT is not set
++# CONFIG_INET_XFRM_MODE_TUNNEL is not set
++# CONFIG_INET_XFRM_MODE_BEET is not set
++# CONFIG_INET_LRO is not set
++# CONFIG_IPV6 is not set
++CONFIG_NETFILTER=y
++CONFIG_IP_NF_IPTABLES=m
++CONFIG_IP_NF_MATCH_AH=m
++CONFIG_IP_NF_MATCH_ECN=m
++CONFIG_IP_NF_MATCH_TTL=m
++CONFIG_IP_NF_FILTER=m
++CONFIG_IP_NF_TARGET_REJECT=m
++CONFIG_IP_NF_TARGET_LOG=m
++CONFIG_IP_NF_TARGET_ULOG=m
++CONFIG_IP_NF_RAW=m
++CONFIG_IP_NF_ARPTABLES=m
++CONFIG_L2TP=m
++CONFIG_L2TP_V3=y
++CONFIG_L2TP_IP=m
++CONFIG_L2TP_ETH=m
++CONFIG_VLAN_8021Q=y
++CONFIG_CFG80211=y
++CONFIG_LIB80211=y
++CONFIG_MAC80211=y
++CONFIG_WIMAX=y
++CONFIG_RFKILL=y
++CONFIG_UEVENT_HELPER_PATH="/sbin/hotplug"
++CONFIG_MTD=y
++CONFIG_MTD_CMDLINE_PARTS=y
++CONFIG_MTD_CHAR=y
++CONFIG_MTD_BLOCK=y
++CONFIG_MTD_DATAFLASH=y
++CONFIG_MTD_NAND=y
++CONFIG_MTD_NAND_ATMEL=y
++CONFIG_MTD_UBI=y
++CONFIG_BLK_DEV_LOOP=y
++CONFIG_BLK_DEV_RAM=y
++CONFIG_BLK_DEV_RAM_SIZE=8192
++CONFIG_MISC_DEVICES=y
++CONFIG_ATMEL_SSC=y
++CONFIG_SCSI=y
++CONFIG_BLK_DEV_SD=y
++CONFIG_SCSI_MULTI_LUN=y
++# CONFIG_SCSI_LOWLEVEL is not set
++CONFIG_NETDEVICES=y
++CONFIG_TUN=m
++CONFIG_NET_ETHERNET=y
++CONFIG_MACB=y
++# CONFIG_NETDEV_1000 is not set
++# CONFIG_NETDEV_10000 is not set
++CONFIG_LIBERTAS_THINFIRM=m
++CONFIG_LIBERTAS_THINFIRM_USB=m
++CONFIG_AT76C50X_USB=m
++CONFIG_USB_ZD1201=m
++CONFIG_USB_NET_RNDIS_WLAN=y
++CONFIG_RTL8187=y
++CONFIG_ATH_COMMON=m
++CONFIG_ATH9K=m
++CONFIG_ATH9K_HTC=m
++CONFIG_CARL9170=m
++CONFIG_HOSTAP=m
++CONFIG_LIBERTAS=m
++CONFIG_LIBERTAS_USB=m
++CONFIG_P54_COMMON=m
++CONFIG_P54_USB=m
++CONFIG_RT2X00=y
++CONFIG_RT2500USB=y
++CONFIG_RT73USB=y
++CONFIG_RT2800USB=y
++# CONFIG_RT2800USB_RT35XX is not set
++CONFIG_RT2800USB_RT53XX=y
++CONFIG_RTL8192CU=y
++CONFIG_ZD1211RW=m
++CONFIG_WIMAX_I2400M_USB=m
++CONFIG_USB_HSO=m
++CONFIG_USB_NET_INT51X1=m
++CONFIG_USB_SIERRA_NET=m
++CONFIG_USB_VL600=m
++CONFIG_PPP=m
++CONFIG_PPP_ASYNC=m
++CONFIG_PPP_SYNC_TTY=m
++CONFIG_PPP_DEFLATE=m
++CONFIG_PPP_BSDCOMP=m
++CONFIG_PPPOE=m
++CONFIG_PPPOL2TP=m
++CONFIG_SLIP=m
++CONFIG_SLIP_COMPRESSED=y
++# CONFIG_INPUT_MOUSEDEV_PSAUX is not set
++CONFIG_INPUT_MOUSEDEV_SCREEN_X=320
++CONFIG_INPUT_MOUSEDEV_SCREEN_Y=240
++CONFIG_INPUT_EVDEV=y
++CONFIG_INPUT_EVBUG=m
++# CONFIG_KEYBOARD_ATKBD is not set
++CONFIG_KEYBOARD_GPIO=y
++# CONFIG_INPUT_MOUSE is not set
++CONFIG_LEGACY_PTY_COUNT=16
++CONFIG_SERIAL_ATMEL=y
++CONFIG_SERIAL_ATMEL_CONSOLE=y
++CONFIG_HW_RANDOM=y
++CONFIG_I2C=y
++CONFIG_I2C_GPIO=y
++CONFIG_SPI=y
++CONFIG_SPI_ATMEL=y
++CONFIG_SPI_SPIDEV=y
++# CONFIG_HWMON is not set
++CONFIG_HID_DRAGONRISE=y
++CONFIG_HID_GYRATION=y
++CONFIG_HID_TWINHAN=y
++CONFIG_HID_NTRIG=y
++CONFIG_HID_PANTHERLORD=y
++CONFIG_HID_PETALYNX=y
++CONFIG_HID_SAMSUNG=y
++CONFIG_HID_SONY=y
++CONFIG_HID_SUNPLUS=y
++CONFIG_HID_GREENASIA=y
++CONFIG_HID_SMARTJOYPLUS=y
++CONFIG_HID_TOPSEED=y
++CONFIG_HID_THRUSTMASTER=y
++CONFIG_HID_ZEROPLUS=y
++CONFIG_USB=y
++CONFIG_USB_DEVICEFS=y
++# CONFIG_USB_DEVICE_CLASS is not set
++CONFIG_USB_MON=y
++CONFIG_USB_OHCI_HCD=y
++CONFIG_USB_WDM=m
++CONFIG_USB_STORAGE=y
++CONFIG_USB_SERIAL=m
++CONFIG_USB_SERIAL_GENERIC=y
++CONFIG_USB_SERIAL_CP210X=m
++CONFIG_USB_SERIAL_FTDI_SIO=m
++CONFIG_USB_SERIAL_IPW=m
++CONFIG_USB_SERIAL_PL2303=m
++CONFIG_USB_SERIAL_QCAUX=m
++CONFIG_USB_SERIAL_QUALCOMM=m
++CONFIG_USB_SERIAL_SPCP8X5=m
++CONFIG_USB_SERIAL_SIERRAWIRELESS=m
++CONFIG_USB_SERIAL_OPTION=m
++CONFIG_USB_GADGET=y
++CONFIG_USB_AT91=y
++CONFIG_USB_ZERO=m
++CONFIG_USB_GADGETFS=m
++CONFIG_USB_FILE_STORAGE=m
++CONFIG_USB_G_SERIAL=m
++CONFIG_MMC=y
++CONFIG_MMC_AT91=m
++CONFIG_LEDS_GPIO=y
++CONFIG_LEDS_TRIGGER_TIMER=y
++CONFIG_LEDS_TRIGGER_HEARTBEAT=y
++CONFIG_LEDS_TRIGGER_GPIO=y
++CONFIG_RTC_CLASS=y
++CONFIG_RTC_DRV_M41T80=y
++CONFIG_STAGING=y
++CONFIG_R8712U=m
++CONFIG_EXT2_FS=y
++CONFIG_EXT3_FS=y
++CONFIG_MSDOS_FS=y
++CONFIG_VFAT_FS=y
++CONFIG_TMPFS=y
++CONFIG_JFFS2_FS=y
++CONFIG_JFFS2_SUMMARY=y
++CONFIG_UBIFS_FS=y
++CONFIG_CRAMFS=y
++CONFIG_NFS_FS=y
++CONFIG_NFS_V3=y
++CONFIG_ROOT_NFS=y
++CONFIG_NLS_CODEPAGE_437=y
++CONFIG_NLS_CODEPAGE_850=y
++CONFIG_NLS_ISO8859_1=y
++CONFIG_NLS_ISO8859_15=y
++CONFIG_NLS_UTF8=y
++CONFIG_PRINTK_TIME=y
++# CONFIG_ENABLE_WARN_DEPRECATED is not set
++# CONFIG_CRYPTO_ANSI_CPRNG is not set
++# CONFIG_CRYPTO_HW is not set
+diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
+index 2248467..7528e86 100644
+--- a/arch/arm/mach-at91/Kconfig
++++ b/arch/arm/mach-at91/Kconfig
+@@ -349,6 +349,12 @@ config MACH_CPU9G20
+ 	  Select this if you are using a Eukrea Electromatique's
+ 	  CPU9G20 Board <http://www.eukrea.com/>
+ 
++config MACH_E10
++	bool "Synapse Wireless Connect E10"
++	help
++	  Select this if you are using a Synapse Wireless
++	  E10 Board <http://www.synapse-wireless.com/>
++
+ config MACH_ACMENETUSFOXG20
+ 	bool "Acme Systems srl FOX Board G20"
+ 	help
+diff --git a/arch/arm/mach-at91/Makefile b/arch/arm/mach-at91/Makefile
+index bf57e8b..eb4c3b5 100644
+--- a/arch/arm/mach-at91/Makefile
++++ b/arch/arm/mach-at91/Makefile
+@@ -62,6 +62,7 @@ obj-$(CONFIG_MACH_AT91SAM9RLEK)	+= board-sam9rlek.o
+ # AT91SAM9G20 board-specific support
+ obj-$(CONFIG_MACH_AT91SAM9G20EK) += board-sam9g20ek.o
+ obj-$(CONFIG_MACH_CPU9G20)	+= board-cpu9krea.o
++obj-$(CONFIG_MACH_E10)		+= board-e10.o
+ obj-$(CONFIG_MACH_ACMENETUSFOXG20) += board-foxg20.o
+ obj-$(CONFIG_MACH_STAMP9G20)	+= board-stamp9g20.o
+ obj-$(CONFIG_MACH_PORTUXG20)	+= board-stamp9g20.o
+diff --git a/arch/arm/mach-at91/board-e10.c b/arch/arm/mach-at91/board-e10.c
+new file mode 100644
+index 0000000..6730dd2
+--- /dev/null
++++ b/arch/arm/mach-at91/board-e10.c
+@@ -0,0 +1,309 @@
++/*
++ *  Copyright (C) 2005 SAN People
++ *  Copyright (C) 2008 Atmel
++ *  Copyright (C) 2011 J.C. Woltz (jwoltz@gmail.com)
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, write to the Free Software
++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ */
++
++#include <linux/types.h>
++#include <linux/init.h>
++#include <linux/mm.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/spi/spi.h>
++#include <linux/spi/at73c213.h>
++#include <linux/gpio_keys.h>
++#include <linux/input.h>
++#include <linux/clk.h>
++#include <linux/regulator/machine.h>
++#include <linux/regulator/fixed.h>
++#include <linux/regulator/consumer.h>
++
++#include <mach/hardware.h>
++#include <asm/setup.h>
++#include <asm/mach-types.h>
++#include <asm/irq.h>
++
++#include <asm/mach/arch.h>
++#include <asm/mach/map.h>
++#include <asm/mach/irq.h>
++
++#include <mach/board.h>
++#include <mach/gpio.h>
++#include <mach/at91sam9_smc.h>
++#include <mach/system_rev.h>
++
++#include "sam9_smc.h"
++#include "generic.h"
++
++static void __init ek_init_early(void)
++{
++	/* Initialize processor: 12.000 MHz crystal */
++	at91sam9260_initialize(12000000);
++
++	/* DBGU on ttyS0. (Rx & Tx only) */
++	at91_register_uart(0, 0, 0);
++
++	/* USART0 on ttyS1. (Rx, Tx, CTS, RTS, DTR, DSR, DCD, RI) */
++	at91_register_uart(AT91SAM9260_ID_US0, 1, ATMEL_UART_CTS | ATMEL_UART_RTS);
++
++	/* USART1 on ttyS2. (Rx, Tx, RTS, CTS) */
++	at91_register_uart(AT91SAM9260_ID_US1, 2, ATMEL_UART_CTS | ATMEL_UART_RTS);
++
++	/* set serial console to ttyS0 (ie, DBGU) */
++	at91_set_serial_console(0);
++}
++
++static void __init ek_init_irq(void)
++{
++	at91sam9260_init_interrupts(NULL);
++}
++
++
++/*
++ * USB Host port
++ */
++static struct at91_usbh_data __initdata ek_usbh_data = {
++	.ports		= 2,
++};
++
++/*
++ * USB Device port
++ */
++static struct at91_udc_data __initdata ek_udc_data = {
++	.vbus_pin	= AT91_PIN_PC5,
++	.pullup_pin	= 0,		/* pull-up driven by UDC */
++};
++
++
++/*
++ * SPI devices.
++ */
++static struct spi_board_info ek_spi_devices[] = {
++};
++
++
++/*
++ * MACB Ethernet device
++ */
++static struct at91_eth_data __initdata ek_macb_data = {
++	.phy_irq_pin	= AT91_PIN_PA31,
++	.is_rmii	= 1,
++};
++
++static void __init ek_add_device_macb(void)
++{
++
++	at91_add_device_eth(&ek_macb_data);
++}
++
++/*
++ * NAND flash
++ */
++static struct mtd_partition __initdata ek_nand_partition[] = {
++	{
++		.name   = "Bootstrap",
++		.offset = 0,
++		.size   = 16 * SZ_1M,
++	},
++	{
++		.name	= "rootfs",
++		.offset	= MTDPART_OFS_NXTBLK,
++		.size	= 120 * SZ_1M,
++	},
++	{
++		.name	= "kernel",
++		.offset	= MTDPART_OFS_NXTBLK,
++		.size	= 4 * SZ_1M,
++	},
++	{
++		.name	= "recovery",
++		.offset	= MTDPART_OFS_NXTBLK,
++		.size	= 16 * SZ_1M,
++	},
++	{
++		.name	= "logs",
++		.offset	= MTDPART_OFS_NXTBLK,
++		.size	= MTDPART_SIZ_FULL,
++	},
++};
++
++static struct mtd_partition * __init nand_partitions(int size, int *num_partitions)
++{
++	*num_partitions = ARRAY_SIZE(ek_nand_partition);
++	return ek_nand_partition;
++}
++
++/* det_pin is not connected */
++static struct atmel_nand_data __initdata ek_nand_data = {
++	.ale		= 21,
++	.cle		= 22,
++	.rdy_pin	= AT91_PIN_PC13,
++	.enable_pin	= AT91_PIN_PC14,
++	.partition_info	= nand_partitions,
++};
++
++static struct sam9_smc_config __initdata ek_nand_smc_config = {
++	.ncs_read_setup		= 0,
++	.nrd_setup		= 2,
++	.ncs_write_setup	= 0,
++	.nwe_setup		= 2,
++
++	.ncs_read_pulse		= 4,
++	.nrd_pulse		= 4,
++	.ncs_write_pulse	= 4,
++	.nwe_pulse		= 4,
++
++	.read_cycle		= 7,
++	.write_cycle		= 7,
++
++	.mode			= AT91_SMC_READMODE | AT91_SMC_WRITEMODE | AT91_SMC_EXNWMODE_DISABLE,
++	.tdf_cycles		= 3,
++};
++
++static void __init ek_add_device_nand(void)
++{
++	ek_nand_data.bus_width_16 = board_have_nand_16bit();
++	/* setup bus-width (8 or 16) */
++	if (ek_nand_data.bus_width_16)
++		ek_nand_smc_config.mode |= AT91_SMC_DBW_16;
++	else
++		ek_nand_smc_config.mode |= AT91_SMC_DBW_8;
++
++	/* configure chip-select 3 (NAND) */
++	sam9_smc_configure(3, &ek_nand_smc_config);
++
++	at91_add_device_nand(&ek_nand_data);
++}
++
++
++/*
++ * MCI (SD/MMC)
++ * wp_pin and vcc_pin are not connected
++ */
++static struct at91_mmc_data __initdata ek_mmc_data = {
++	.slot_b		= 1,	/* Only one slot so use slot B */
++	.wire4		= 1,
++};
++
++/*
++ * LEDs
++ */
++static struct gpio_led ek_leds[] = {
++	{	/* "bottom" led, green, userled1 to be defined */
++		.name			= "redled",
++		.gpio			= AT91_PIN_PB13,
++		.default_trigger	= "heartbeat",
++	},
++	{	/* "power" led, yellow */
++		.name			= "greenled",
++		.gpio			= AT91_PIN_PB12,
++		.default_trigger	= "none",
++	}
++};
++
++static void __init ek_add_device_gpio_leds(void)
++{
++	at91_gpio_leds(ek_leds, ARRAY_SIZE(ek_leds));
++}
++
++/*
++ * GPIO Buttons
++ */
++#if defined(CONFIG_KEYBOARD_GPIO) || defined(CONFIG_KEYBOARD_GPIO_MODULE)
++static struct gpio_keys_button ek_buttons[] = {
++	{
++		.gpio		= AT91_PIN_PB10,
++		.code		= BTN_3,
++		.desc		= "Button 3",
++		.active_low	= 1,
++		.wakeup		= 1,
++	}
++};
++
++static struct gpio_keys_platform_data ek_button_data = {
++	.buttons	= ek_buttons,
++	.nbuttons	= ARRAY_SIZE(ek_buttons),
++};
++
++static struct platform_device ek_button_device = {
++	.name		= "gpio-keys",
++	.id		= -1,
++	.num_resources	= 0,
++	.dev		= {
++	.platform_data	= &ek_button_data,
++	}
++};
++
++static void __init ek_add_device_buttons(void)
++{
++	at91_set_gpio_input(AT91_PIN_PB10, 1);	/* btn3 */
++	at91_set_deglitch(AT91_PIN_PB10, 1);
++
++	platform_device_register(&ek_button_device);
++}
++#else
++static void __init ek_add_device_buttons(void) {}
++#endif
++
++static void __init ek_add_regulators(void) {}
++
++
++static struct i2c_board_info __initdata ek_i2c_devices[] = {
++        {
++                I2C_BOARD_INFO("m41t81", 0x68)
++        },
++};
++
++
++static void __init ek_board_init(void)
++{
++	/* Serial */
++	at91_add_device_serial();
++	/* USB Host */
++	at91_add_device_usbh(&ek_usbh_data);
++	/* USB Device */
++	at91_add_device_udc(&ek_udc_data);
++	/* SPI */
++//	at91_add_device_spi(ek_spi_devices, ARRAY_SIZE(ek_spi_devices));
++	/* NAND */
++	ek_add_device_nand();
++	/* Ethernet */
++	ek_add_device_macb();
++	/* Regulators */
++//	ek_add_regulators();
++	/* MMC */
++//	ek_add_device_mmc();
++	/* I2C */
++	at91_add_device_i2c(ek_i2c_devices, ARRAY_SIZE(ek_i2c_devices));
++	/* LEDs */
++	ek_add_device_gpio_leds();
++	/* Push Buttons */
++	ek_add_device_buttons();
++	/* PCK0 provides MCLK to the WM8731 */
++//	at91_set_B_periph(AT91_PIN_PC1, 0);
++	/* SSC (for WM8731) */
++//	at91_add_device_ssc(AT91SAM9260_ID_SSC, ATMEL_SSC_TX);
++}
++
++MACHINE_START(E10, "Synapse Wireless Connect-E10")
++	.timer		= &at91sam926x_timer,
++	.map_io		= at91sam9260_map_io,
++	.init_early	= ek_init_early,
++	.init_irq	= ek_init_irq,
++	.init_machine	= ek_board_init,
++MACHINE_END
++
+-- 
+1.7.5.4
+

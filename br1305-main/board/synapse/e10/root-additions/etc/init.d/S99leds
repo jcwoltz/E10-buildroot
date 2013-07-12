@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# Start the leds....
+# J.C. Woltz <jwoltz@gmail.com>
+# stop all triggers and turn on green led
+#
+
+case "$1" in
+  start)
+	echo none > /sys/class/leds/redled/trigger
+	echo none > /sys/class/leds/greenled/trigger
+	echo 1 > /sys/class/leds/greenled/brightness
+	echo 0 > /sys/class/leds/redled/brightness
+	;;
+  stop)
+	echo none > /sys/class/leds/redled/trigger
+	echo none > /sys/class/leds/redled/trigger
+	echo 0 > /sys/class/leds/greenled/brightness
+	echo 0 > /sys/class/leds/redled/brightness
+	;;
+  restart|reload)
+	"$0" stop
+	"$0" start
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+

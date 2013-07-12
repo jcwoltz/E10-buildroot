@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# Start the cron daemon....
+# 20111005214407 J.C. Woltz <jwoltz@gmail.com>
+#
+
+case "$1" in
+  start)
+ 	echo -n "Starting cron.."
+	/usr/sbin/crond
+	if [ $? -eq 0 ]
+	then
+	 echo "."
+	else
+	 echo "! Unable to start crond"
+	fi
+	;;
+  stop)
+	echo -n "Stopping cron.."
+	/bin/kill `/bin/cat /var/run/crond.pid`
+	if [ $? -eq 1 ]
+	then
+	 killall crond
+	else
+	 echo "."
+	fi
+	;;
+  restart|reload)
+	"$0" stop
+	"$0" start
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+

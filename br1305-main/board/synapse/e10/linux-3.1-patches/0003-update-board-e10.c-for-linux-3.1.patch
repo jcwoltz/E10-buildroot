@@ -1,0 +1,54 @@
+From a3cef195d0cb55e7e0e1abce9fefa365069bc9dc Mon Sep 17 00:00:00 2001
+From: "J.C. Woltz" <jwoltz@gmail.com>
+Date: Fri, 4 Nov 2011 18:26:32 -0400
+Subject: [PATCH 3/3] update board-e10.c for linux 3.1
+
+
+Signed-off-by: J.C. Woltz <jwoltz@gmail.com>
+---
+ arch/arm/mach-at91/board-e10.c |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/mach-at91/board-e10.c b/arch/arm/mach-at91/board-e10.c
+index 6730dd2..61f82b5 100644
+--- a/arch/arm/mach-at91/board-e10.c
++++ b/arch/arm/mach-at91/board-e10.c
+@@ -52,7 +52,7 @@
+ static void __init ek_init_early(void)
+ {
+ 	/* Initialize processor: 12.000 MHz crystal */
+-	at91sam9260_initialize(12000000);
++	at91_initialize(12000000);
+ 
+ 	/* DBGU on ttyS0. (Rx & Tx only) */
+ 	at91_register_uart(0, 0, 0);
+@@ -61,7 +61,7 @@ static void __init ek_init_early(void)
+ 	at91_register_uart(AT91SAM9260_ID_US0, 1, ATMEL_UART_CTS | ATMEL_UART_RTS);
+ 
+ 	/* USART1 on ttyS2. (Rx, Tx, RTS, CTS) */
+-	at91_register_uart(AT91SAM9260_ID_US1, 2, ATMEL_UART_CTS | ATMEL_UART_RTS);
++	//at91_register_uart(AT91SAM9260_ID_US1, 2, ATMEL_UART_CTS | ATMEL_UART_RTS);
+ 
+ 	/* set serial console to ttyS0 (ie, DBGU) */
+ 	at91_set_serial_console(0);
+@@ -69,7 +69,7 @@ static void __init ek_init_early(void)
+ 
+ static void __init ek_init_irq(void)
+ {
+-	at91sam9260_init_interrupts(NULL);
++	at91_init_interrupts(NULL);
+ }
+ 
+ 
+@@ -301,7 +301,7 @@ static void __init ek_board_init(void)
+ 
+ MACHINE_START(E10, "Synapse Wireless Connect-E10")
+ 	.timer		= &at91sam926x_timer,
+-	.map_io		= at91sam9260_map_io,
++	.map_io		= at91_map_io,
+ 	.init_early	= ek_init_early,
+ 	.init_irq	= ek_init_irq,
+ 	.init_machine	= ek_board_init,
+-- 
+1.7.5.4
+

@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Start SNAP Connect instance
+# Originally by Synapse Wireless
+# Modified 201110161425 by J.C. Woltz <jwoltz@gmail.com> to skip push button
+#
+
+start() {
+	echo -n "Starting user SNAP Connect instance..."
+	start-stop-daemon --start --quiet --make-pidfile --pidfile /var/run/snapconnect.pid --background --exec /usr/bin/python /root/UserMain.py
+	echo "OK"
+}
+stop() {
+	echo -n "Stopping SNAP Connect..."
+	start-stop-daemon --stop --quiet --pidfile /var/run/snapconnect.pid
+	echo "OK"
+}
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart|reload)
+  	restart
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+

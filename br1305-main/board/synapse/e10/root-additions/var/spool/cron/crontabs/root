@@ -1,0 +1,15 @@
+#*     *     *   *    *        command to be executed
+#-     -     -   -    -
+#|     |     |   |    |
+#|     |     |   |    +----- day of week (0 - 6) (Sunday=0)
+#|     |     |   +------- month (1 - 12)
+#|     |     +--------- day of        month (1 - 31)
+#|     +----------- hour (0 - 23)
+#+------------- min (0 - 59)
+#
+#* * * * * /root/scripts/cron.minute.sh
+#0 * * * * /root/scripts/cron.hourly.sh
+#0 0 * * * /root/scripts/cron.daily.sh
+#0 0 1 * * /root/scripts/cron.monthly.sh
+#0 0 * * 0 /root/scripts/cron.weekly.sh
+
